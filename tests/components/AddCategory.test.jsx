@@ -16,7 +16,31 @@ describe('Pruebas en <AddCategory />', () => {
       expect(input.value).toBe('Saitama')
 
       // screen.debug(); 
+    });
+
+
+    test('debe de llamar onNewCategory si el input tiene un valor', () => {
+      const inputValue = 'Saitama';
+
+      // valor a evaluar
+      render(<AddCategory onNewCategory={() => {}}/>);
+
+      // sujeto de prueba
+      const input = screen.getByRole('textbox');
+      const form = screen.getByRole('form');
+
+      // prueba
+      fireEvent.input(input, {target:{value:inputValue}});
+      // evaluamos el comportamiento del submit
+      fireEvent.submit(form);
+      // screen.debug();
+      expect(input.value).toBe('');
+
+
     })
+    
+
+
     
   
 })
