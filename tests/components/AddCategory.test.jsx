@@ -21,9 +21,12 @@ describe('Pruebas en <AddCategory />', () => {
 
     test('debe de llamar onNewCategory si el input tiene un valor', () => {
       const inputValue = 'Saitama';
+      // definimos la funcion
+      const onNewCategory = jest.fn();
 
       // valor a evaluar
-      render(<AddCategory onNewCategory={() => {}}/>);
+      // render(<AddCategory onNewCategory={() => {}}/>);
+      render(<AddCategory onNewCategory={onNewCategory}/>);
 
       // sujeto de prueba
       const input = screen.getByRole('textbox');
@@ -36,7 +39,30 @@ describe('Pruebas en <AddCategory />', () => {
       // screen.debug();
       expect(input.value).toBe('');
 
+      // Evalua si la funcion fue llamada
+      expect(onNewCategory).toHaveBeenCalled();
+      expect(onNewCategory).toHaveBeenCalledTimes(1);
+      expect(onNewCategory).toHaveBeenCalledWith(inputValue);
 
+    });
+
+    test('no debe de llamar onNewCategory si el input esta vacio', () => {
+      const inputValue = '';
+      // definimos la funcion
+      const onNewCategory = jest.fn();
+
+      // valor a evaluar
+      // render(<AddCategory onNewCategory={() => {}}/>);
+      render(<AddCategory onNewCategory={onNewCategory}/>);
+
+      // sujeto de prueba
+      const form = screen.getByRole('form');
+      // prueba
+      fireEvent.submit(form);
+
+      // Evalua si la funcion fue llamada
+      expect(onNewCategory).not.toHaveBeenCalled();
+      expect(onNewCategory).toHaveBeenCalledTimes(0);
     })
     
 
